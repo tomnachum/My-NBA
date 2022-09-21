@@ -5,15 +5,28 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <link rel="stylesheet" href="frontend/src/style/style.css" />
+    <link rel="stylesheet" href="frontend/build/style.css" />
   </head>
   <body>
+    <script id="players-template" type="text/x-handlebars-template">
+      {{#each players}}
+        <div class="player">
+          <p>{{fname}} {{lname}}</p>
+          <p>{{jerseyNumber}}</p>
+          <img src="{{picture}}" alt="" />
+          <p>{{position}}</p>
+        </div>
+      {{/each}}
+    </script>
+
     <div class="user-input">
       <input id="team-name-input" type="text" placeholder="Team Name" />
       <input id="year-input" type="text" placeholder="Year" />
       <button id="get-team-btn">Get Team</button>
     </div>
-    <div class="players"></div>
+    <div class="players-container"></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.4/handlebars.js"></script>
     <script
       src="https://code.jquery.com/jquery-3.6.0.js"
       crossorigin="anonymous"
