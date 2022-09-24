@@ -48,4 +48,4 @@ def get_years():
 
 
 if __name__ == "__main__":
-    uvicorn.run("server:app", host="0.0.0.0", port=8045, reload=True)
+    uvicorn.run("server:app", host="0.0.0.0", port=8046, reload=True)
