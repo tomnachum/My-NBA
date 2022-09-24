@@ -11,8 +11,8 @@
     <script id="players-template" type="text/x-handlebars-template">
       {{#each players}}
         <div class="player">
-          <p>{{fname}} {{lname}}</p>
-          <p>{{jerseyNumber}}</p>
+          <p>{{firstName}} {{lastName}}</p>
+          <p>{{jersey}}</p>
           <div class="img-container">
             <img
               src="{{picture}}"
@@ -20,7 +20,7 @@
               onerror="this.onerror=null; this.src=`https://smageodeesia.ee/wp-content/uploads/2020/02/blank-man_6.jpg`"
             />
           </div>
-          <p>{{position}}</p>
+          <p>{{pos}}</p>
         </div>
       {{/each}}
     </script>
