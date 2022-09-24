@@ -14,7 +14,11 @@
           <p>{{fname}} {{lname}}</p>
           <p>{{jerseyNumber}}</p>
           <div class="img-container">
-            <img src="{{picture}}" alt="" />
+            <img
+              src="{{picture}}"
+              alt="player_img"
+              onerror="this.onerror=null; this.src=`https://smageodeesia.ee/wp-content/uploads/2020/02/blank-man_6.jpg`"
+            />
           </div>
           <p>{{position}}</p>
         </div>
