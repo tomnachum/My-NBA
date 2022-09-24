@@ -12,6 +12,12 @@ app.mount(
     name="frontend/build",
 )
 
+app.mount(
+    "/frontend/src",
+    StaticFiles(directory="frontend/src"),
+    name="frontend/src",
+)
+
 teamToIDs = {
     "lakers": "1610612747",
     "warriors": "1610612744",
