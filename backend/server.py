@@ -2,6 +2,7 @@ from fastapi import FastAPI, Request, Response
 import uvicorn
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
+from dream_team import DreamTeam
 import nba_api_handler as nba
 
 app = FastAPI()
@@ -45,6 +46,20 @@ def get_teams():
 @app.get("/years")
 def get_years():
     return [str(year) for year in range(nba.MIN_YEAR, nba.MAX_YEAR + 1)]
+
+
+dream_team = DreamTeam()
+
+
+@app.get("/dreamTeam")
+def get_dream_team():
+    return dream_team.get_players()
+
+
+@app.put("/dreamTeam")
+async def add_player(request: Request):
+    playerData = await request.json()
+    dream_team.add_player(playerData)
 
 
 if __name__ == "__main__":
