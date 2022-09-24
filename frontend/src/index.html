@@ -25,21 +25,26 @@
       {{/each}}
     </script>
 
-    <div class="user-input">
-      <div class="teams-dropdown">
-        <select class="dropdown" name="teams" id="teams">
-          <option value="" hidden>Select Team</option>
-        </select>
+    <div class="container">
+      <div class="title">
+        <h1>NBA Team Generator</h1>
       </div>
-      <div class="years-dropdown">
-        <select class="dropdown" name="years" id="years">
-          <option value="" hidden>Select Year</option>
-        </select>
+      <div class="user-input">
+        <div class="teams-dropdown">
+          <select class="dropdown" name="teams" id="teams">
+            <option value="" hidden>Select Team</option>
+          </select>
+        </div>
+        <div class="years-dropdown">
+          <select class="dropdown" name="years" id="years">
+            <option value="" hidden>Select Year</option>
+          </select>
+        </div>
+        <button id="get-team-btn">Get Team</button>
       </div>
-      <button id="get-team-btn">Get Team</button>
-    </div>
 
-    <div class="players-container"></div>
+      <div class="players-container"></div>
+    </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.4/handlebars.js"></script>
     <script
