@@ -2,6 +2,7 @@ from fastapi import FastAPI, Request, Response
 import uvicorn
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
+from player import Player
 from dream_team import DreamTeam
 import nba_api_handler as nba
 
@@ -56,10 +57,28 @@ def get_dream_team():
     return dream_team.get_players()
 
 
+def data_to_player(playerData: dict) -> Player:
+    return Player(
+        playerData["picture"],
+        playerData["firstName"],
+        playerData["lastName"],
+        playerData["jersey"],
+        playerData["pos"],
+    )
+
+
 @app.put("/dreamTeam")
 async def add_player(request: Request):
     playerData = await request.json()
-    dream_team.add_player(playerData)
+    player = data_to_player(playerData)
+    dream_team.add_player(player)
+
+
+@app.delete("/dreamTeam")
+async def delete_player(request: Request):
+    playerData = await request.json()
+    player = data_to_player(playerData)
+    dream_team.delete_player(player)
 
 
 if __name__ == "__main__":
