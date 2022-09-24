@@ -25,9 +25,16 @@ def get_html():
 
 
 @app.get("/players/{team}/{year}")
-def get_players(team, year):
+def get_players(team, year, filterActive=False):
     all_players = nba.get_players_by_year(year)
-    return [player for player in all_players if nba.is_player_in_team(player, team)]
+    players_of_team = [
+        player for player in all_players if nba.is_player_in_team(player, team)
+    ]
+    if filterActive == "true":
+        players_of_team = filter(
+            lambda player: "isActive" in player and player["isActive"], players_of_team
+        )
+    return players_of_team
 
 
 @app.get("/teams")
