@@ -5,6 +5,7 @@ from fastapi.responses import FileResponse
 from player import Player
 from dream_team import DreamTeam
 import nba_api_handler as nba
+import requests
 
 app = FastAPI()
 
@@ -79,6 +80,14 @@ async def delete_player(request: Request):
     playerData = await request.json()
     player = data_to_player(playerData)
     dream_team.delete_player(player)
+
+
+@app.get("/stats/{lname}/{fname}")
+def get_stats(lname, fname):
+    stats = requests.get(
+        f"https://nba-players.herokuapp.com/players-stats/{lname}/{fname}"
+    ).json()
+    return stats
 
 
 if __name__ == "__main__":
