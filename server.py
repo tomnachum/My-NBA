@@ -19,6 +19,9 @@ teamToIDs = {
     "suns": "1610612756",
 }
 
+MIN_YEAR = 2012
+MAX_YEAR = 2022
+
 
 @app.get("/")
 def get_html():
@@ -44,5 +47,15 @@ def get_players(team, year):
     return [player for player in all_players if is_player_in_team(player, team)]
 
 
+@app.get("/teams")
+def get_teams():
+    return [team for team in teamToIDs.keys()]
+
+
+@app.get("/years")
+def get_years():
+    return [str(year) for year in range(MIN_YEAR, MAX_YEAR + 1)]
+
+
 if __name__ == "__main__":
-    uvicorn.run("server:app", host="0.0.0.0", port=8000, reload=True)
+    uvicorn.run("server:app", host="0.0.0.0", port=8042, reload=True)

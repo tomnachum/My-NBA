@@ -9,7 +9,7 @@ interface playerData {
 class Model {
   public players: Player[] = [];
 
-  public async callPlayersAPI(team: string, year: number) {
+  public async callPlayersAPI(team: string, year: string) {
     let playersData = await $.get(`/players/${team}/${year}`);
     this.players = playersData.map(
       (p: playerData) =>
@@ -29,5 +29,15 @@ class Model {
       (p: Player) =>
         new Player(p.picture, p.fname, p.lname, p.jerseyNumber, p.position)
     );
+  }
+
+  public async getTeams() {
+    const teams = await $.get("/teams");
+    return teams;
+  }
+
+  public async getYears() {
+    const years = await $.get("/years");
+    return years;
   }
 }

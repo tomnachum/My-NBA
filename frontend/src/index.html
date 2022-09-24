@@ -13,17 +13,28 @@
         <div class="player">
           <p>{{fname}} {{lname}}</p>
           <p>{{jerseyNumber}}</p>
-          <img src="{{picture}}" alt="" />
+          <div class="img-container">
+            <img src="{{picture}}" alt="" />
+          </div>
           <p>{{position}}</p>
         </div>
       {{/each}}
     </script>
 
     <div class="user-input">
-      <input id="team-name-input" type="text" placeholder="Team Name" />
-      <input id="year-input" type="text" placeholder="Year" />
+      <div class="teams-dropdown">
+        <select class="dropdown" name="teams" id="teams">
+          <option value="" hidden>Select Team</option>
+        </select>
+      </div>
+      <div class="years-dropdown">
+        <select class="dropdown" name="years" id="years">
+          <option value="" hidden>Select Year</option>
+        </select>
+      </div>
       <button id="get-team-btn">Get Team</button>
     </div>
+
     <div class="players-container"></div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.4/handlebars.js"></script>
