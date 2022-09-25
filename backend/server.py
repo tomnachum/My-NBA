@@ -87,10 +87,9 @@ async def delete_player(request: Request):
 
 @app.get("/stats/{lname}/{fname}")
 def get_stats(lname, fname):
-    stats = requests.get(
+    return requests.get(
         f"https://nba-players.herokuapp.com/players-stats/{lname}/{fname}"
     ).json()
-    return stats
 
 
 if __name__ == "__main__":
