@@ -28,16 +28,19 @@ def get_html():
 
 
 @app.get("/players/{team}/{year}")
-def get_players(team, year, filterActive=False):
+def get_players(team, year, birthDateFilter=False):
     all_players = nba.get_players_by_year(year)
-    players_of_team = [
+    team_players = [
         player for player in all_players if nba.is_player_in_team(player, team)
     ]
-    if filterActive == "true":
-        players_of_team = filter(
-            lambda player: "isActive" in player and player["isActive"], players_of_team
+    print(birthDateFilter)
+    print(birthDateFilter == "true")
+    if birthDateFilter == "true":
+        print(team_players)
+        team_players = list(
+            filter(lambda player: player["dateOfBirthUTC"] != "", team_players)
         )
-    return players_of_team
+    return team_players
 
 
 @app.get("/teams")
