@@ -39,7 +39,10 @@
   teamBtn.on("click", function () {
     const teamName = get_option("#teams");
     const year = get_option("#years");
-    model.getPlayers(teamName, year).then(players => {
+    const hasBdayFilter = $("#birthDayFilter").prop("checked")
+      ? "true"
+      : "false";
+    model.getPlayers(teamName, year, hasBdayFilter).then(players => {
       renderer.render(players);
     });
   });

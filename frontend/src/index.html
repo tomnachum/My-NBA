@@ -25,12 +25,15 @@
       {{/each}}
     </script>
 
+    <script id="players-number-template" type="text/x-handlebars-template">
+      <p>Selected players: <strong>{{players.length}}</strong></p>
+    </script>
+
     <div class="container">
-      <div class="title">
+      <div class="title center">
         <h1>NBA Team Generator</h1>
       </div>
-      <button>filter button</button>
-      <div class="user-input">
+      <div class="user-input center">
         <div class="teams-dropdown">
           <select class="dropdown" name="teams" id="teams">
             <option value="" hidden>Select Team</option>
@@ -41,9 +44,16 @@
             <option value="" hidden>Select Year</option>
           </select>
         </div>
+      </div>
+      <div class="filters center">
+        <input type="checkbox" id="birthDayFilter" name="birthDayFilter" />
+        <label for="birthDayFilter">Has Birth Date</label>
+      </div>
+      <div class="btn-container center">
         <button id="get-team-btn">Get Team</button>
       </div>
 
+      <div class="players-number-container center"></div>
       <div class="players-container"></div>
     </div>
 

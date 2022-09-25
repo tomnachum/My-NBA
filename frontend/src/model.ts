@@ -1,6 +1,12 @@
 class Model {
-  public async getPlayers(team: string, year: string) {
-    let playersData = await $.get(`/players/${team}/${year}`);
+  public async getPlayers(
+    team: string,
+    year: string,
+    hasBdayFilter: string = "false"
+  ) {
+    let playersData = await $.get(
+      `/players/${team}/${year}?birthDateFilter=${hasBdayFilter}`
+    );
     return playersData.map(
       (p: Player) =>
         new Player(

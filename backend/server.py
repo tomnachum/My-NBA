@@ -33,10 +33,7 @@ def get_players(team, year, birthDateFilter=False):
     team_players = [
         player for player in all_players if nba.is_player_in_team(player, team)
     ]
-    print(birthDateFilter)
-    print(birthDateFilter == "true")
     if birthDateFilter == "true":
-        print(team_players)
         team_players = list(
             filter(lambda player: player["dateOfBirthUTC"] != "", team_players)
         )
@@ -94,4 +91,4 @@ def get_stats(lname, fname):
 
 
 if __name__ == "__main__":
-    uvicorn.run("server:app", host="0.0.0.0", port=8046, reload=True)
+    uvicorn.run("server:app", host="0.0.0.0", port=8047, reload=True)

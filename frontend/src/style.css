@@ -2,19 +2,21 @@ body {
   background-color: darkgray;
 }
 
-h1 {
+.center {
   display: flex;
   justify-content: center;
+  align-items: center;
+  margin: 20px;
+}
+
+h1 {
   font-family: cursive;
   font-size: xxx-large;
-  margin: 20px;
 }
 
 .user-input {
   align-items: center;
-  display: flex;
-  justify-content: center;
-  margin: 20px;
+  font-family: monospace;
 }
 
 .dropdown,
@@ -22,6 +24,27 @@ h1 {
   padding: 10px;
   margin: 0 10px 0 10px;
   width: 200px;
+  font-family: monospace;
+  text-align: center;
+}
+
+.filters {
+}
+
+.filters > label {
+  margin-left: 5px;
+  font-size: larger;
+  font-family: monospace;
+}
+
+#birthDayFilter {
+  width: 20px;
+  height: 20px;
+}
+
+.players-number-container {
+  font-size: larger;
+  font-family: monospace;
 }
 
 .players-container {

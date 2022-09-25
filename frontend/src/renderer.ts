@@ -1,9 +1,14 @@
 class Renderer {
   public render(players: Player[]) {
-    $(`.players-container`).empty();
-    const source = $(`#players-template`).html();
+    this.handlebarsHelper("players", players);
+    this.handlebarsHelper("players-number", players);
+  }
+
+  private handlebarsHelper(selector: string, players: Player[]) {
+    $(`.${selector}-container`).empty();
+    const source = $(`#${selector}-template`).html();
     const template = Handlebars.compile(source);
     const newHTML = template({ players });
-    $(`.players-container`).append(newHTML);
+    $(`.${selector}-container`).append(newHTML);
   }
 }
