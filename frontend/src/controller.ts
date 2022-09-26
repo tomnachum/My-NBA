@@ -46,23 +46,30 @@
     const hasBdayFilter = $("#birthDayFilter").prop("checked")
       ? "true"
       : "false";
-    model.getPlayers(teamName, year, hasBdayFilter).then(players => {
+    model.getTeam(teamName, year, hasBdayFilter).then(players => {
       renderer.render(players);
     });
   });
 
-  $(".players-container").on("click", ".addToDreamTeamBtn", function () {
+  $(".players-container").on("click", ".updateDreamTeamBtn", function () {
     const playerElement = $(this).closest(".player");
     const playerId = playerElement.data().id;
-    model.addToDreamTeam(playerId);
-    const name = playerElement.find(".name").text();
-    alert(`${name} has been added succesfully to dream team.`);
-    dreamTeamBtn.prop("disabled", false);
+    if (model.isDreamTeam()) {
+      model.deleteFromDreamTeam(playerId);
+      model.getDreamTeam().then(players => {
+        renderer.render(players, true);
+      });
+    } else {
+      model.addToDreamTeam(playerId);
+      const name = playerElement.find(".name").text();
+      alert(`${name} has been added succesfully to dream team.`);
+      dreamTeamBtn.prop("disabled", false);
+    }
   });
 
   $("#get-dream-team-btn").on("click", function () {
     model.getDreamTeam().then(players => {
-      renderer.render(players);
+      renderer.render(players, true);
     });
   });
 })();

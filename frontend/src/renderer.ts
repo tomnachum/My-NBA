@@ -1,14 +1,18 @@
 class Renderer {
-  public render(players: Player[]) {
-    this.handlebarsHelper("players", players);
-    this.handlebarsHelper("players-number", players);
+  public render(players: Player[], isDreamTeam: boolean = false) {
+    this.handlebarsHelper("players", players, isDreamTeam);
+    this.handlebarsHelper("players-number", players, isDreamTeam);
   }
 
-  private handlebarsHelper(selector: string, players: Player[]) {
+  private handlebarsHelper(
+    selector: string,
+    players: Player[],
+    isDreamTeam: boolean
+  ) {
     $(`.${selector}-container`).empty();
     const source = $(`#${selector}-template`).html();
     const template = Handlebars.compile(source);
-    const newHTML = template({ players });
+    const newHTML = template({ players, isDreamTeam });
     $(`.${selector}-container`).append(newHTML);
   }
 }

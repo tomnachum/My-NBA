@@ -21,7 +21,13 @@
             />
           </div>
           <p class="position">{{pos}}</p>
-          <button class="addToDreamTeamBtn">Add to Dream team</button>
+          <button class="updateDreamTeamBtn">
+            {{#if ../isDreamTeam}}
+            Delete from Dream team
+            {{else}}
+            Add to Dream team
+            {{/if}}
+          </button>
         </div>
       {{/each}}
     </script>

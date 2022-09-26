@@ -1,7 +1,8 @@
 class Model {
   private players: Player[] = [];
+  private isDreamTeamPlayers = false;
 
-  public async getPlayers(
+  public async getTeam(
     team: string,
     year: string,
     hasBdayFilter: string = "false"
@@ -10,6 +11,7 @@ class Model {
       `/players/${team}/${year}?birthDateFilter=${hasBdayFilter}`
     );
     this.players = this.createPlayers(playersData);
+    this.isDreamTeamPlayers = false;
     return this.players;
   }
 
@@ -39,6 +41,19 @@ class Model {
   public async getDreamTeam() {
     const playersData = await $.get("/dreamTeam");
     this.players = this.createPlayers(playersData);
+    this.isDreamTeamPlayers = true;
     return this.players;
+  }
+
+  public isDreamTeam() {
+    return this.isDreamTeamPlayers;
+  }
+
+  public deleteFromDreamTeam(playerId: number) {
+    $.ajax({
+      url: "/dreamTeam",
+      type: "DELETE",
+      data: JSON.stringify(this.players[playerId]),
+    });
   }
 }
