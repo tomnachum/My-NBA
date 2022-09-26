@@ -91,4 +91,4 @@ def get_stats(lname, fname):
 
 
 if __name__ == "__main__":
-    uvicorn.run("server:app", host="0.0.0.0", port=8047, reload=True)
+    uvicorn.run("server:app", host="0.0.0.0", port=8048, reload=True)

@@ -46,4 +46,9 @@
       renderer.render(players);
     });
   });
+
+  $(".players-container").on("click", ".addToDreamTeamBtn", function () {
+    const playerId = $(this).closest(".player").data().id;
+    model.addToDreamTeam(playerId);
+  });
 })();

@@ -10,7 +10,7 @@
   <body>
     <script id="players-template" type="text/x-handlebars-template">
       {{#each players}}
-        <div class="player">
+        <div class="player" data-id="{{@index}}">
           <p>{{firstName}} {{lastName}}</p>
           <p>{{jersey}}</p>
           <div class="img-container">
@@ -21,6 +21,7 @@
             />
           </div>
           <p>{{pos}}</p>
+          <button class="addToDreamTeamBtn">Add to Dream team</button>
         </div>
       {{/each}}
     </script>
