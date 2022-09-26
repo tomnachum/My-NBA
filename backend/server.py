@@ -27,6 +27,16 @@ def get_html():
     return FileResponse("frontend\src\index.html")
 
 
+def create_player(playerData):
+    return Player(
+        f"https://nba-players.herokuapp.com/players/{playerData['lastName']}/{playerData['firstName']}",
+        playerData["firstName"],
+        playerData["lastName"],
+        playerData["jersey"],
+        playerData["pos"],
+    )
+
+
 @app.get("/players/{team}/{year}")
 def get_players(team, year, birthDateFilter=False):
     all_players = nba.get_players_by_year(year)
@@ -37,7 +47,7 @@ def get_players(team, year, birthDateFilter=False):
         team_players = list(
             filter(lambda player: player["dateOfBirthUTC"] != "", team_players)
         )
-    return team_players
+    return [create_player(playerData) for playerData in team_players]
 
 
 @app.get("/teams")
@@ -91,4 +101,4 @@ def get_stats(lname, fname):
 
 
 if __name__ == "__main__":
-    uvicorn.run("server:app", host="0.0.0.0", port=8048, reload=True)
+    uvicorn.run("server:app", host="0.0.0.0", port=8049, reload=True)

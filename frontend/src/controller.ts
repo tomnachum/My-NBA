@@ -3,8 +3,12 @@
   let renderer = new Renderer();
 
   const teamBtn = $("#get-team-btn");
+  const dreamTeamBtn = $("#get-dream-team-btn");
 
   teamBtn.prop("disabled", true);
+  model.getDreamTeam().then(players => {
+    dreamTeamBtn.prop("disabled", players.length == 0);
+  });
 
   function add_options_to_dropdown(selector: string, options: string[]) {
     for (const option of options) {
@@ -48,7 +52,17 @@
   });
 
   $(".players-container").on("click", ".addToDreamTeamBtn", function () {
-    const playerId = $(this).closest(".player").data().id;
+    const playerElement = $(this).closest(".player");
+    const playerId = playerElement.data().id;
     model.addToDreamTeam(playerId);
+    const name = playerElement.find(".name").text();
+    alert(`${name} has been added succesfully to dream team.`);
+    dreamTeamBtn.prop("disabled", false);
+  });
+
+  $("#get-dream-team-btn").on("click", function () {
+    model.getDreamTeam().then(players => {
+      renderer.render(players);
+    });
   });
 })();

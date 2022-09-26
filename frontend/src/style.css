@@ -14,12 +14,13 @@ button:disabled {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 20px;
+  margin: 15px;
 }
 
 h1 {
   font-family: cursive;
   font-size: xxx-large;
+  margin: 10px;
 }
 
 .user-input {
@@ -28,12 +29,17 @@ h1 {
 }
 
 .dropdown,
-#get-team-btn {
+#get-team-btn,
+#get-dream-team-btn {
   padding: 10px;
   margin: 0 10px 0 10px;
   width: 200px;
   font-family: monospace;
   text-align: center;
+}
+
+#get-dream-team-btn {
+  background-color: gold;
 }
 
 .filters {

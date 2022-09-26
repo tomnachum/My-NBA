@@ -6,20 +6,18 @@ class Model {
     year: string,
     hasBdayFilter: string = "false"
   ) {
-    let playersData = await $.get(
+    const playersData = await $.get(
       `/players/${team}/${year}?birthDateFilter=${hasBdayFilter}`
     );
-    this.players = playersData.map(
-      (p: Player) =>
-        new Player(
-          `https://nba-players.herokuapp.com/players/${p.lastName}/${p.firstName}`,
-          p.firstName,
-          p.lastName,
-          p.jersey,
-          p.pos
-        )
-    );
+    this.players = this.createPlayers(playersData);
     return this.players;
+  }
+
+  private createPlayers(playersData: Player[]) {
+    return playersData.map(
+      (p: Player) =>
+        new Player(p.picture, p.firstName, p.lastName, p.jersey, p.pos)
+    );
   }
 
   public async getTeams() {
@@ -36,5 +34,11 @@ class Model {
       type: "PUT",
       data: JSON.stringify(this.players[playerId]),
     });
+  }
+
+  public async getDreamTeam() {
+    const playersData = await $.get("/dreamTeam");
+    this.players = this.createPlayers(playersData);
+    return this.players;
   }
 }
