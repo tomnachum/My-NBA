@@ -1,4 +1,4 @@
-(() => {
+(function () {
   let model = new Model();
   let renderer = new Renderer();
 
@@ -46,8 +46,12 @@
     const hasBdayFilter = $("#birthDayFilter").prop("checked")
       ? "true"
       : "false";
+    $(".players-number-container").empty();
+    $(".players-container").empty();
+    $(".loading-spinner").removeClass("hide");
     model.getTeam(teamName, year, hasBdayFilter).then(players => {
       renderer.render(players);
+      $(".loading-spinner").addClass("hide");
     });
   });
 
@@ -68,8 +72,38 @@
   });
 
   $("#get-dream-team-btn").on("click", function () {
+    $(".players-number-container").empty();
+    $(".players-container").empty();
+    $(".loading-spinner").removeClass("hide");
     model.getDreamTeam().then(players => {
       renderer.render(players, true);
+      $(".loading-spinner").addClass("hide");
     });
+  });
+
+  $(".players-container").on("click", ".stats-icon", function () {
+    const playerElement = $(this).closest(".player");
+    const statsDiv = playerElement.find(`.stats-container`);
+    const imgDiv = playerElement.find(`.img-container`);
+    if ($(this).hasClass("clicked")) {
+      $(this).removeClass("clicked");
+      statsDiv.removeClass("loader");
+      imgDiv.removeClass("hide");
+      statsDiv.empty();
+    } else {
+      $(this).addClass("clicked");
+      imgDiv.addClass("hide");
+      statsDiv.addClass("loader");
+      const playerId = playerElement.data().id;
+      model.getStats(playerId).then(stats => {
+        statsDiv.removeClass("loader");
+        if ($(this).hasClass("clicked")) {
+          renderer.renderStats(stats, statsDiv);
+        }
+      });
+    }
+  });
+  Handlebars.registerHelper("isNotDefined", function (stats: Stats | string) {
+    return typeof stats === "string";
   });
 })();
