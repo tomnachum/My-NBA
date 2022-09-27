@@ -2,6 +2,7 @@ from fastapi import FastAPI, Request, Response
 import uvicorn
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
+from stats import Stats
 from player import Player
 from dream_team import DreamTeam
 import nba_api_handler as nba
@@ -94,11 +95,19 @@ async def delete_player(request: Request):
 
 @app.get("/stats/{lname}/{fname}")
 def get_stats(lname, fname):
-    stats = requests.get(
-        f"https://nba-players.herokuapp.com/players-stats/{lname}/{fname}"
-    ).json()
-    return stats
+    try:
+        stats = requests.get(
+            f"https://nba-players.herokuapp.com/players-stats/{lname}/{fname}"
+        ).json()
+        return Stats(
+            stats["assists_per_game"],
+            stats["blocks_per_game"],
+            stats["points_per_game"],
+            stats["rebounds_per_game"],
+        )
+    except requests.exceptions.RequestException:
+        return "unavilable"
 
 
 if __name__ == "__main__":
-    uvicorn.run("server:app", host="0.0.0.0", port=8049, reload=True)
+    uvicorn.run("server:app", host="0.0.0.0", port=8050, reload=True)

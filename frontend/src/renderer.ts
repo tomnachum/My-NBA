@@ -4,6 +4,14 @@ class Renderer {
     this.handlebarsHelper("players-number", players, isDreamTeam);
   }
 
+  public renderStats(stats: Stats | string, statsDiv: JQuery<HTMLElement>) {
+    statsDiv.empty();
+    const source = $(`#stats-template`).html();
+    const template = Handlebars.compile(source);
+    const newHTML = template(stats);
+    statsDiv.append(newHTML);
+  }
+
   private handlebarsHelper(
     selector: string,
     players: Player[],

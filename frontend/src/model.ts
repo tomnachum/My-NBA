@@ -56,4 +56,18 @@ class Model {
       data: JSON.stringify(this.players[playerId]),
     });
   }
+
+  public async getStats(playerId: number) {
+    const player = this.players[playerId];
+    const stats = await $.get(`/stats/${player.lastName}/${player.firstName}`);
+    if (stats === "unavilable") {
+      return stats;
+    }
+    return new Stats(
+      stats.assists_per_game,
+      stats.blocks_per_game,
+      stats.points_per_game,
+      stats.rebounds_per_game
+    );
+  }
 }
