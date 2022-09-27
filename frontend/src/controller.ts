@@ -40,17 +40,22 @@
     return option;
   }
 
+  function clearTeamData() {
+    $(".team-name-container").empty();
+    $(".players-number-container").empty();
+    $(".players-container").empty();
+  }
+
   teamBtn.on("click", function () {
     const teamName = get_option("#teams");
     const year = get_option("#years");
     const hasBdayFilter = $("#birthDayFilter").prop("checked")
       ? "true"
       : "false";
-    $(".players-number-container").empty();
-    $(".players-container").empty();
+    clearTeamData();
     $(".loading-spinner").removeClass("hide");
     model.getTeam(teamName, year, hasBdayFilter).then(players => {
-      renderer.render(players);
+      renderer.renderTeam(players, false, teamName, year);
       $(".loading-spinner").addClass("hide");
     });
   });
@@ -61,7 +66,7 @@
     if (model.isDreamTeam()) {
       model.deleteFromDreamTeam(playerId);
       model.getDreamTeam().then(players => {
-        renderer.render(players, true);
+        renderer.renderTeam(players, true);
       });
     } else {
       model.addToDreamTeam(playerId);
@@ -72,11 +77,10 @@
   });
 
   $("#get-dream-team-btn").on("click", function () {
-    $(".players-number-container").empty();
-    $(".players-container").empty();
+    clearTeamData();
     $(".loading-spinner").removeClass("hide");
     model.getDreamTeam().then(players => {
-      renderer.render(players, true);
+      renderer.renderTeam(players, true);
       $(".loading-spinner").addClass("hide");
     });
   });
@@ -105,5 +109,9 @@
   });
   Handlebars.registerHelper("isNotDefined", function (stats: Stats | string) {
     return typeof stats === "string";
+  });
+
+  Handlebars.registerHelper("proper-case", function (teamName: string) {
+    return teamName[0].toUpperCase() + teamName.slice(1);
   });
 })();

@@ -41,7 +41,11 @@
     </script>
 
     <script id="players-number-template" type="text/x-handlebars-template">
-      <p>Selected players: <strong>{{players.length}}</strong></p>
+      <p>Selected players: <strong>{{counter}}</strong></p>
+    </script>
+
+    <script id="team-name-template" type="text/x-handlebars-template">
+      <h3 class="team-name">{{proper-case name}} {{year}}</h3>
     </script>
 
     <script id="stats-template" type="text/x-handlebars-template">
@@ -60,6 +64,7 @@
       <div class="title center">
         <h1>NBA Team Generator</h1>
       </div>
+
       <div class="user-input center">
         <div class="teams-dropdown">
           <select class="dropdown" name="teams" id="teams">
@@ -82,12 +87,19 @@
       <div class="center">
         <button id="get-dream-team-btn" class="center">Get Dream Team</button>
       </div>
+      <hr />
 
       <div class="center">
         <div class="loading-spinner loader hide"></div>
       </div>
-      <div class="players-number-container center"></div>
-      <div class="players-container"></div>
+
+      <div class="team-container">
+        <div class="team-data">
+          <div class="team-name-container center"></div>
+          <div class="players-number-container center"></div>
+        </div>
+        <div class="players-container"></div>
+      </div>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.4/handlebars.js"></script>
