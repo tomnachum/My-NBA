@@ -5,10 +5,10 @@ class Model {
   public async getTeam(
     team: string,
     year: string,
-    hasBdayFilter: string = "false"
+    hasBdayFilter: boolean = false
   ) {
     const playersData = await $.get(
-      `/players/${team}/${year}?birthDateFilter=${hasBdayFilter}`
+      `/players/${team}/${year}?birthDateFilter=${String(hasBdayFilter)}`
     );
     this.players = this.createPlayers(playersData);
     this.isDreamTeamPlayers = false;

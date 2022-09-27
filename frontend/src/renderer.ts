@@ -1,10 +1,10 @@
 class Renderer {
-  public renderStats(stats: Stats | string, statsDiv: JQuery<HTMLElement>) {
-    statsDiv.empty();
-    const source = $(`#stats-template`).html();
-    const template = Handlebars.compile(source);
-    const newHTML = template(stats);
-    statsDiv.append(newHTML);
+  public renderStats(stats: Stats | string, playerId: number) {
+    this.handlebarsHelper(
+      `.player[data-id='${playerId}'] .stats-container`,
+      "#stats-template",
+      stats
+    );
   }
 
   public renderTeam(
@@ -13,16 +13,30 @@ class Renderer {
     name: string = "Dream Team",
     year: string = ""
   ) {
-    this.handlebarsHelper("players-number", { counter: players.length });
-    this.handlebarsHelper("team-name", { name, year });
-    this.handlebarsHelper("players", { players, isDreamTeam });
+    this.handlebarsHelper(
+      ".players-number-container",
+      "#players-number-template",
+      { counter: players.length }
+    );
+    this.handlebarsHelper(".team-name-container", "#team-name-template", {
+      name,
+      year,
+    });
+    this.handlebarsHelper(".players-container", "#players-template", {
+      players,
+      isDreamTeam,
+    });
   }
 
-  private handlebarsHelper(selector: string, dataObject: any) {
-    $(`.${selector}-container`).empty();
-    const source = $(`#${selector}-template`).html();
+  private handlebarsHelper(
+    containerSelector: string,
+    templateSelector: string,
+    dataObject: any
+  ) {
+    $(containerSelector).empty();
+    const source = $(templateSelector).html();
     const template = Handlebars.compile(source);
     const newHTML = template(dataObject);
-    $(`.${selector}-container`).append(newHTML);
+    $(containerSelector).append(newHTML);
   }
 }
