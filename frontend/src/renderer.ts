@@ -13,15 +13,15 @@ class Renderer {
     name: string = "Dream Team",
     year: string = ""
   ) {
+    this.handlebarsHelper(".team-name-container", "#team-name-template", {
+      name,
+      year,
+    });
     this.handlebarsHelper(
       ".players-number-container",
       "#players-number-template",
       { counter: players.length }
     );
-    this.handlebarsHelper(".team-name-container", "#team-name-template", {
-      name,
-      year,
-    });
     this.handlebarsHelper(".players-container", "#players-template", {
       players,
       isDreamTeam,
