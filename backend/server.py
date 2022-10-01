@@ -28,13 +28,13 @@ def get_html():
     return FileResponse("frontend\src\index.html")
 
 
-def create_player(playerData):
+def create_player(player_data: dict) -> Player:
     return Player(
-        f"https://nba-players.herokuapp.com/players/{playerData['lastName']}/{playerData['firstName']}",
-        playerData["firstName"],
-        playerData["lastName"],
-        playerData["jersey"],
-        playerData["pos"],
+        f"https://nba-players.herokuapp.com/players/{player_data['lastName']}/{player_data['firstName']}",
+        player_data["firstName"],
+        player_data["lastName"],
+        player_data["jersey"],
+        player_data["pos"],
     )
 
 
@@ -48,7 +48,7 @@ def get_players(team, year, birthDateFilter=False):
         team_players = list(
             filter(lambda player: player["dateOfBirthUTC"] != "", team_players)
         )
-    return [create_player(playerData) for playerData in team_players]
+    return [create_player(player_data) for player_data in team_players]
 
 
 @app.get("/teams")
@@ -69,42 +69,36 @@ def get_dream_team():
     return dream_team.get_players()
 
 
-def data_to_player(playerData: dict) -> Player:
-    return Player(
-        playerData["picture"],
-        playerData["firstName"],
-        playerData["lastName"],
-        playerData["jersey"],
-        playerData["pos"],
-    )
-
-
 @app.put("/dreamTeam")
 async def add_player(request: Request):
-    playerData = await request.json()
-    player = data_to_player(playerData)
+    player_data = await request.json()
+    player = create_player(player_data)
     dream_team.add_player(player)
 
 
 @app.delete("/dreamTeam")
 async def delete_player(request: Request):
-    playerData = await request.json()
-    player = data_to_player(playerData)
+    player_data = await request.json()
+    player = create_player(player_data)
     dream_team.delete_player(player)
+
+
+def create_stats(stats_data: dict) -> Stats:
+    return Stats(
+        stats_data["assists_per_game"],
+        stats_data["blocks_per_game"],
+        stats_data["points_per_game"],
+        stats_data["rebounds_per_game"],
+    )
 
 
 @app.get("/stats/{lname}/{fname}")
 def get_stats(lname, fname):
     try:
-        stats = requests.get(
+        stats_data = requests.get(
             f"https://nba-players.herokuapp.com/players-stats/{lname}/{fname}"
         ).json()
-        return Stats(
-            stats["assists_per_game"],
-            stats["blocks_per_game"],
-            stats["points_per_game"],
-            stats["rebounds_per_game"],
-        )
+        return create_stats(stats_data)
     except requests.exceptions.RequestException:
         return "unavilable"
 
