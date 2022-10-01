@@ -2,6 +2,7 @@ from fastapi import FastAPI, Request, Response
 import uvicorn
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
+from stats import Stats
 from player import Player
 from dream_team import DreamTeam
 import nba_api_handler as nba
@@ -27,20 +28,27 @@ def get_html():
     return FileResponse("frontend\src\index.html")
 
 
+def create_player(playerData):
+    return Player(
+        f"https://nba-players.herokuapp.com/players/{playerData['lastName']}/{playerData['firstName']}",
+        playerData["firstName"],
+        playerData["lastName"],
+        playerData["jersey"],
+        playerData["pos"],
+    )
+
+
 @app.get("/players/{team}/{year}")
 def get_players(team, year, birthDateFilter=False):
     all_players = nba.get_players_by_year(year)
     team_players = [
         player for player in all_players if nba.is_player_in_team(player, team)
     ]
-    print(birthDateFilter)
-    print(birthDateFilter == "true")
     if birthDateFilter == "true":
-        print(team_players)
         team_players = list(
             filter(lambda player: player["dateOfBirthUTC"] != "", team_players)
         )
-    return team_players
+    return [create_player(playerData) for playerData in team_players]
 
 
 @app.get("/teams")
@@ -87,10 +95,19 @@ async def delete_player(request: Request):
 
 @app.get("/stats/{lname}/{fname}")
 def get_stats(lname, fname):
-    return requests.get(
-        f"https://nba-players.herokuapp.com/players-stats/{lname}/{fname}"
-    ).json()
+    try:
+        stats = requests.get(
+            f"https://nba-players.herokuapp.com/players-stats/{lname}/{fname}"
+        ).json()
+        return Stats(
+            stats["assists_per_game"],
+            stats["blocks_per_game"],
+            stats["points_per_game"],
+            stats["rebounds_per_game"],
+        )
+    except requests.exceptions.RequestException:
+        return "unavilable"
 
 
 if __name__ == "__main__":
-    uvicorn.run("server:app", host="0.0.0.0", port=8046, reload=True)
+    uvicorn.run("server:app", host="0.0.0.0", port=8056, reload=True)

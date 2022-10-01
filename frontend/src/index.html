@@ -6,30 +6,66 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <link rel="stylesheet" href="frontend/src/style.css" />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
   </head>
   <body>
     <script id="players-template" type="text/x-handlebars-template">
       {{#each players}}
-        <div class="player">
-          <p>{{firstName}} {{lastName}}</p>
-          <p>{{jersey}}</p>
-          <div class="img-container">
-            <img
-              src="{{picture}}"
-              alt="player_img"
-              onerror="this.onerror=null; this.src=`https://smageodeesia.ee/wp-content/uploads/2020/02/blank-man_6.jpg`"
-            />
+        <div class="player" data-id="{{@index}}">
+          <i class="small material-icons stats-icon">timeline</i>
+          <p class="name">{{firstName}} {{lastName}}</p>
+          <p class="jersey">{{jersey}}</p>
+          <div class="player-body">
+            <div class="stats-container"></div>
+            <div class="img-container">
+              <img
+                src="{{picture}}"
+                alt="player_img"
+                onerror="this.onerror=null; this.src=`https://smageodeesia.ee/wp-content/uploads/2020/02/blank-man_6.jpg`"
+              />
+            </div>
           </div>
-          <p>{{pos}}</p>
+          <p class="position">{{pos}}</p>
+          <button class="updateDreamTeamBtn">
+            {{#if ../isDreamTeam}}
+            Delete from Dream team
+            {{else}}
+            Add to Dream team
+            {{/if}}
+          </button>
         </div>
       {{/each}}
     </script>
 
+    <script id="players-number-template" type="text/x-handlebars-template">
+      <p>Selected players: <strong>{{counter}}</strong></p>
+    </script>
+
+    <script id="team-name-template" type="text/x-handlebars-template">
+      <h3 class="team-name">{{proper-case name}} {{year}}</h3>
+    </script>
+
+    <script id="stats-template" type="text/x-handlebars-template">
+      {{#if (isNotDefined @root)}}
+        <p>Stats are unavilable.</p>
+      {{else}}
+        <h3>Per Game Analytics</h3>
+        <p>assists: {{assists_per_game}}</p>
+        <p>blocks: {{blocks_per_game}}</p>
+        <p>points: {{points_per_game}}</p>
+        <p>rebounds: {{rebounds_per_game}}</p>
+      {{/if}}
+    </script>
+
     <div class="container">
-      <div class="title">
+      <div class="title center">
         <h1>NBA Team Generator</h1>
       </div>
-      <div class="user-input">
+
+      <div class="user-input center">
         <div class="teams-dropdown">
           <select class="dropdown" name="teams" id="teams">
             <option value="" hidden>Select Team</option>
@@ -40,10 +76,30 @@
             <option value="" hidden>Select Year</option>
           </select>
         </div>
-        <button id="get-team-btn">Get Team</button>
+      </div>
+      <div class="filters center">
+        <input type="checkbox" id="birthDayFilter" name="birthDayFilter" />
+        <label for="birthDayFilter">Has Birth Date</label>
+      </div>
+      <div class="center">
+        <button id="get-team-btn" class="center">Get Team</button>
+      </div>
+      <div class="center">
+        <button id="get-dream-team-btn" class="center">Get Dream Team</button>
+      </div>
+      <hr />
+
+      <div class="center">
+        <div class="loading-spinner loader hide"></div>
       </div>
 
-      <div class="players-container"></div>
+      <div class="team-container">
+        <div class="team-data">
+          <div class="team-name-container center"></div>
+          <div class="players-number-container center"></div>
+        </div>
+        <div class="players-container"></div>
+      </div>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.4/handlebars.js"></script>
@@ -51,6 +107,7 @@
       src="https://code.jquery.com/jquery-3.6.0.js"
       crossorigin="anonymous"
     ></script>
+    <script src="frontend/build/stats.js"></script>
     <script src="frontend/build/player.js"></script>
     <script src="frontend/build/model.js"></script>
     <script src="frontend/build/renderer.js"></script>
