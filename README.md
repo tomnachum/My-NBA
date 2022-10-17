@@ -12,11 +12,11 @@ A full stack project to display NBA players cards, based on their team name and 
 ## Features
 
 - Select team and year and display. At first the get team and get dream team buttons are disabled.
-  ![Alt text](/images/initial_screen.png?raw=true "Optional Title")
-  ![Alt text](/images/peak_team.png?raw=true "Optional Title")
+  <img src="images/initial_screen.png" width="300" />
+  <img src="images/peak_team.png" width="400" />
 - Dream team: the user can creates it's own team by adding palyers from different team to the dream team. We implemented all the CRUD operations.
-  ![Alt text](/images/add_to_dream_team.png?raw=true "Optional Title")
-  ![Alt text](/images/remove_from_dream_team.png?raw=true "Optional Title")
+  <img src="images/add_to_dream_team.png" width="400" />
+  <img src="images/remove_from_dream_team.png" width="400" />
 - Has birth date filter: the user can filter players based on whether we have the data of their birth date or we don't.
 - Shoe statistics of player - the user can display statistic of each player by pressing the button in the top right of each player.
 <p float="left">
