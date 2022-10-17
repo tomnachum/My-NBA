@@ -10,22 +10,26 @@ import requests
 
 app = FastAPI()
 
+JS_FILES_DIR = "client/build"
+TEMPLATE_DIR = "client/src"
+HTML_DIR = "client\src\index.html"
+
 app.mount(
-    "/frontend/build",
-    StaticFiles(directory="frontend/build"),
-    name="frontend/build",
+    f"/{JS_FILES_DIR}",
+    StaticFiles(directory=JS_FILES_DIR),
+    name=JS_FILES_DIR,
 )
 
 app.mount(
-    "/frontend/src",
-    StaticFiles(directory="frontend/src"),
-    name="frontend/src",
+    f"/{TEMPLATE_DIR}",
+    StaticFiles(directory=TEMPLATE_DIR),
+    name=TEMPLATE_DIR,
 )
 
 
 @app.get("/")
 def get_html():
-    return FileResponse("frontend\src\index.html")
+    return FileResponse(HTML_DIR)
 
 
 def create_player(player_data: dict) -> Player:
@@ -104,4 +108,4 @@ def get_stats(lname, fname):
 
 
 if __name__ == "__main__":
-    uvicorn.run("server:app", host="0.0.0.0", port=8056, reload=True)
+    uvicorn.run("server:app", host="0.0.0.0", port=8000, reload=True)
